@@ -9,9 +9,16 @@ import Cocoa
 
 class TaskListViewController: NSViewController {
 
+    
+    @IBOutlet weak var quitButton: NSButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
+    }
+    @IBAction func quitButtonPressed(_ sender: NSButton) {
+//        NSApplication.terminate(NSApplication)
+        NSApplication.shared.terminate(self)
     }
     
 }
