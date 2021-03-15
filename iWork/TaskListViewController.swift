@@ -8,19 +8,25 @@
 import Cocoa
 
 class TaskListViewController: NSViewController {
-
     
-    @IBOutlet weak var quitButton: NSButton!
+    @objc dynamic var taskList = ["Task 1", "Task 2", "Task 3"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
     }
+    
+    //MARK:- Quit button
+    @IBOutlet weak var quitButton: NSButton!
     @IBAction func quitButtonPressed(_ sender: NSButton) {
-//        NSApplication.terminate(NSApplication)
         NSApplication.shared.terminate(self)
     }
     
+    //MARK:-  Add task button
+    
+    @IBAction func addTaskButtonPressed(_ sender: NSButtonCell) {
+        
+    }
 }
 
 extension TaskListViewController {
