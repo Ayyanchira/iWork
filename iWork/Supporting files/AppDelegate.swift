@@ -19,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         button.image = NSImage(named:NSImage.Name("StatusBarButtonImage"))
         button.action = #selector(togglePopover(_:))
       }
-      popover.contentViewController = TaskListViewController.freshController()
+      popover.contentViewController = TaskListViewController.initiateViewController()
     }
     
     func constructMenu() {

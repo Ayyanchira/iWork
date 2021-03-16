@@ -11,6 +11,9 @@
 		4438D83125FFC53100996C57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4438D83025FFC53100996C57 /* Assets.xcassets */; };
 		4438D83425FFC53100996C57 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4438D83225FFC53100996C57 /* Main.storyboard */; };
 		4438D83E25FFD20A00996C57 /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4438D83D25FFD20A00996C57 /* TaskListViewController.swift */; };
+		4438D8462600246900996C57 /* TaskListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4438D8452600246800996C57 /* TaskListCellView.swift */; };
+		4438D855260039FD00996C57 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4438D854260039FD00996C57 /* Task.swift */; };
+		4438D8592600471600996C57 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4438D8582600471600996C57 /* TaskManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +24,9 @@
 		4438D83525FFC53100996C57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4438D83625FFC53100996C57 /* iWork.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iWork.entitlements; sourceTree = "<group>"; };
 		4438D83D25FFD20A00996C57 /* TaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewController.swift; sourceTree = "<group>"; };
+		4438D8452600246800996C57 /* TaskListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCellView.swift; sourceTree = "<group>"; };
+		4438D854260039FD00996C57 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		4438D8582600471600996C57 /* TaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,14 +59,57 @@
 		4438D82B25FFC53000996C57 /* iWork */ = {
 			isa = PBXGroup;
 			children = (
-				4438D82C25FFC53000996C57 /* AppDelegate.swift */,
-				4438D83025FFC53100996C57 /* Assets.xcassets */,
-				4438D83225FFC53100996C57 /* Main.storyboard */,
-				4438D83525FFC53100996C57 /* Info.plist */,
 				4438D83625FFC53100996C57 /* iWork.entitlements */,
-				4438D83D25FFD20A00996C57 /* TaskListViewController.swift */,
+				4438D83525FFC53100996C57 /* Info.plist */,
+				4438D8572600470100996C57 /* Services */,
+				4438D84C260038AB00996C57 /* Supporting files */,
+				4438D84B2600389100996C57 /* Model */,
+				4438D84A2600388700996C57 /* CustomViews */,
+				4438D8492600387E00996C57 /* ViewControllers */,
 			);
 			path = iWork;
+			sourceTree = "<group>";
+		};
+		4438D8492600387E00996C57 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				4438D83D25FFD20A00996C57 /* TaskListViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		4438D84A2600388700996C57 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				4438D8452600246800996C57 /* TaskListCellView.swift */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		4438D84B2600389100996C57 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4438D854260039FD00996C57 /* Task.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4438D84C260038AB00996C57 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				4438D83025FFC53100996C57 /* Assets.xcassets */,
+				4438D83225FFC53100996C57 /* Main.storyboard */,
+				4438D82C25FFC53000996C57 /* AppDelegate.swift */,
+			);
+			path = "Supporting files";
+			sourceTree = "<group>";
+		};
+		4438D8572600470100996C57 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				4438D8582600471600996C57 /* TaskManager.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,6 +181,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4438D8592600471600996C57 /* TaskManager.swift in Sources */,
+				4438D855260039FD00996C57 /* Task.swift in Sources */,
+				4438D8462600246900996C57 /* TaskListCellView.swift in Sources */,
 				4438D82D25FFC53000996C57 /* AppDelegate.swift in Sources */,
 				4438D83E25FFD20A00996C57 /* TaskListViewController.swift in Sources */,
 			);
