@@ -10,44 +10,49 @@ import Cocoa
 class TaskListCellView: NSTableCellView {
     
     
+    @IBOutlet weak var startStopButton: NSButton!
     @IBOutlet weak var timerLabel: NSTextField!
     @IBOutlet weak var taskTitleLabel: NSTextField!
     @IBOutlet weak var decriptionLabel: NSTextField!
-    var timeCount = ""
+    
+    @IBOutlet weak var seperatorView: NSView!
+    
     var taskId:String?
     var seconds = 0 //This variable will hold a starting value of seconds. It could be any amount above 0.
     var timer = Timer()
     var isTimerRunning = false //This will be used to make sure only one timer is created at a time.
-    var resumeTapped = false
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-        
-        // Drawing code here.
+        setSeperatorColor()
+    }
+    
+    func setSeperatorColor() {
+        if(!isTimerRunning) {
+            if (seconds == 0) {
+                //Not started yet
+                seperatorView.layer?.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+            } else {
+                //Paused
+                seperatorView.layer?.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+            }
+        } else {
+            //Running
+            seperatorView.layer?.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        }
     }
     
     @IBAction func startButtonPressed(_ sender: Any) {
         if isTimerRunning == false {
+            isTimerRunning = true
             runTimer()
-        }
-    }
-    
-    @IBAction func pauseButtonTapped(_ sender: Any) {
-        if self.resumeTapped == false {
-            timer.invalidate()
-            self.resumeTapped = true
+            startStopButton.title = "Pause"
         } else {
-            runTimer()
-            self.resumeTapped = false
+            isTimerRunning = false
+            startStopButton.title = "Resume"
+            timer.invalidate()
         }
-    }
-    
-    @IBAction func resetButtonTapped(_ sender: Any) {
-        timer.invalidate()
-        seconds = 0    //Here we manually enter the restarting point for the seconds, but it would be wiser to make this a variable or constant.
-        timeCount = "\(seconds)"
-        NSLog("key",timeCount)
-        isTimerRunning = false
+        setSeperatorColor()
     }
     
     
@@ -59,9 +64,10 @@ class TaskListCellView: NSTableCellView {
     }
     
     @objc func updateTimer() {
-        seconds += 1     //This will decrement(count down)the seconds.
-        timeCount = timeString(time: TimeInterval(seconds))
-        timerLabel.stringValue = timeCount
+        seconds += 1     //This will increment the seconds.
+        timerLabel.stringValue = timeString(time: TimeInterval(seconds))
+        
+        //Commit to local
         if taskId != nil {
             TaskManager.setElapsedTimeForTask(id: taskId!, to: seconds)
         }
