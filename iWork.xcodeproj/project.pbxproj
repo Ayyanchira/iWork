@@ -14,6 +14,8 @@
 		4438D8462600246900996C57 /* TaskListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4438D8452600246800996C57 /* TaskListCellView.swift */; };
 		4438D855260039FD00996C57 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4438D854260039FD00996C57 /* Task.swift */; };
 		4438D8592600471600996C57 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4438D8582600471600996C57 /* TaskManager.swift */; };
+		4438D85E2601500B00996C57 /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4438D85D2601500B00996C57 /* NewTaskViewController.swift */; };
+		4438D8612601502D00996C57 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4438D8602601502D00996C57 /* EditTaskViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		4438D8452600246800996C57 /* TaskListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCellView.swift; sourceTree = "<group>"; };
 		4438D854260039FD00996C57 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		4438D8582600471600996C57 /* TaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
+		4438D85D2601500B00996C57 /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
+		4438D8602601502D00996C57 /* EditTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +78,8 @@
 			isa = PBXGroup;
 			children = (
 				4438D83D25FFD20A00996C57 /* TaskListViewController.swift */,
+				4438D85D2601500B00996C57 /* NewTaskViewController.swift */,
+				4438D8602601502D00996C57 /* EditTaskViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -185,6 +191,8 @@
 				4438D855260039FD00996C57 /* Task.swift in Sources */,
 				4438D8462600246900996C57 /* TaskListCellView.swift in Sources */,
 				4438D82D25FFC53000996C57 /* AppDelegate.swift in Sources */,
+				4438D85E2601500B00996C57 /* NewTaskViewController.swift in Sources */,
+				4438D8612601502D00996C57 /* EditTaskViewController.swift in Sources */,
 				4438D83E25FFD20A00996C57 /* TaskListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

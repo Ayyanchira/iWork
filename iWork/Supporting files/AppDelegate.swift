@@ -19,21 +19,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         button.image = NSImage(named:NSImage.Name("StatusBarButtonImage"))
         button.action = #selector(togglePopover(_:))
       }
-      popover.contentViewController = TaskListViewController.initiateViewController()
-    }
-    
-    func constructMenu() {
-      let menu = NSMenu()
-
-      menu.addItem(NSMenuItem(title: "Print Quote", action: #selector(AppDelegate.printQuote(_:)), keyEquivalent: "P"))
-      menu.addItem(NSMenuItem.separator())
-      menu.addItem(NSMenuItem(title: "Quit Quotes", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
-
-      statusItem.menu = menu
-    }
-    
-    @objc func printQuote(_ sender: Any?) {
-        print("Welcome to Iterable's first hack week")
+//        popover.behavior = .transient
+        popover.contentViewController = TaskListViewController.initiateViewController()
     }
     
     //PRAGMA MARK:- POP OVER METHODS

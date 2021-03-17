@@ -14,20 +14,31 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
     var taskList:[Task] = [Task]()
     var taskManager = TaskManager()
     
+    @IBOutlet weak var taskListTableView: NSTableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
-        
-        taskList = taskManager.getAllTasks() ?? [Task]()
+        taskListTableView.delegate = self
+        taskListTableView.dataSource = self
+        taskList = TaskManager.getAllTasks() ?? [Task]()
         addNewTasks()
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTaskList), name: NSNotification.Name(rawValue: "load"), object: nil)
     }
     
     func addNewTasks() {
-        taskList.append(taskManager.addTask(name: "Release Android 3.3.0", description: "Release Android SDK on maven central"))
-        taskList.append(taskManager.addTask(name: "Have a architecture ready", description: "InApp Animation flow diagram"))
-        taskList.append(taskManager.addTask(name: "Migrate to Kube", description: "Write a slab doc for Kube migration"))
-        taskList.append(taskManager.addTask(name: "Make Coffee", description: nil))
-        taskList.append(taskManager.addTask(name: "Create JIRA APIs", description: "Use postman to create hit JIRA endpoints to see if it gives back required data"))
+        taskList.append(TaskManager.addTask(name: "Release Android 3.3.0", description: "Release Android SDK on maven central"))
+        taskList.append(TaskManager.addTask(name: "Have a architecture ready", description: "InApp Animation flow diagram"))
+        taskList.append(TaskManager.addTask(name: "Migrate to Kube", description: "Write a slab doc for Kube migration"))
+        taskList.append(TaskManager.addTask(name: "Make Coffee", description: nil))
+        taskList.append(TaskManager.addTask(name: "Create JIRA APIs", description: "Use postman to create hit JIRA endpoints to see if it gives back required data"))
+    }
+
+    @objc func refreshTaskList(notification: NSNotification) {
+        DispatchQueue.main.async {
+            self.taskList = TaskManager.getAllTasks() ?? [Task]()
+            self.taskListTableView.reloadData()
+        }
     }
     
     //MARK: Quit button
@@ -53,7 +64,6 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
         taskCell.decriptionLabel.stringValue = taskList[row].description
         return taskCell
     }
-    
 }
 
 //MARK:- Extensions
