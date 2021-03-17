@@ -24,38 +24,76 @@ class TaskListCellView: NSTableCellView {
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-        setSeperatorColor()
+        updateUIElements()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUIElements), name: NSNotification.Name(rawValue: "taskUpdate\(taskId!)"), object: nil)
     }
     
-    func setSeperatorColor() {
+    @objc func updateUIElements() {
+        guard let task = TaskManager.getTask(id: taskId!) else {
+            return
+        }
+        switch task.status {
+        case .NEW:
+            seperatorView.layer?.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+            startStopButton.title = "Start"
+        case .IN_PROGRESS:
+            seperatorView.layer?.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+            startStopButton.title = "Pause"
+        case .PAUSED:
+            seperatorView.layer?.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+            startStopButton.title = "Resume"
+        case.COMPLETE:
+            seperatorView.layer?.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+            startStopButton.title = ""
+            startStopButton.isEnabled = false
+        }
+    }
+    
+    @IBAction func startStopButtonPressed(_ sender: Any) {
+        toggleTimer()
+        updateTaskStatus()
+        updateUIElements()
+    }
+    
+    func updateTaskStatus() {
+        guard let task = TaskManager.getTask(id: taskId!) else {
+            return
+        }
+        
+        if task.status == .COMPLETE {
+            timer.invalidate()
+            updateUIElements()
+            TaskManager.updateTask(task: task)
+            return
+        }
+        
         if(!isTimerRunning) {
             if (seconds == 0) {
                 //Not started yet
-                seperatorView.layer?.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+                task.status = .NEW
             } else {
                 //Paused
-                seperatorView.layer?.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+                task.status = .PAUSED
             }
         } else {
             //Running
-            seperatorView.layer?.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+            task.status = .IN_PROGRESS
         }
+        TaskManager.updateTask(task: task)
     }
     
-    @IBAction func startButtonPressed(_ sender: Any) {
-        if isTimerRunning == false {
-            isTimerRunning = true
-            runTimer()
-            startStopButton.title = "Pause"
-        } else {
-            isTimerRunning = false
-            startStopButton.title = "Resume"
-            timer.invalidate()
-        }
-        setSeperatorColor()
+    deinit {
+        print("Invalidating the timer")
+        timer.invalidate()
     }
     
-    
+//    @objc func deleteTask() {
+//        isTimerRunning = false
+//        timer.invalidate()
+//        TaskManager.deleteTask(id: taskId!)
+//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+//        NotificationCenter.default.removeObserver(self)
+//    }
     
     //MARK:- Task Time Management
     
@@ -63,14 +101,29 @@ class TaskListCellView: NSTableCellView {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(TaskListCellView.updateTimer)), userInfo: nil, repeats: true)
     }
     
+    fileprivate func toggleTimer() {
+        if isTimerRunning == false {
+            isTimerRunning = true
+            runTimer()
+        } else {
+            isTimerRunning = false
+            timer.invalidate()
+        }
+    }
+    
     @objc func updateTimer() {
+        
         seconds += 1     //This will increment the seconds.
         timerLabel.stringValue = timeString(time: TimeInterval(seconds))
         
         //Commit to local
         if taskId != nil {
+            if (TaskManager.getTask(id: taskId!) == nil) {
+                print("Task already deleted")
+            }
             TaskManager.setElapsedTimeForTask(id: taskId!, to: seconds)
         }
+//        updateTaskStatus()
     }
     
     func timeString(time:TimeInterval) -> String {
