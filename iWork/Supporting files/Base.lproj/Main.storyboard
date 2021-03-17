@@ -738,7 +738,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="customTaskCell" id="mcx-31-jh5" customClass="TaskListCellView" customModule="iWork" customModuleProvider="target">
-                                                            <rect key="frame" x="8" y="0.0" width="461" height="60"/>
+                                                            <rect key="frame" x="18" y="0.0" width="461" height="60"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ri6-es-NbQ">
@@ -762,18 +762,50 @@
                                                                 <button verticalHuggingPriority="750" fixedFrame="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hm1-At-YiU">
                                                                     <rect key="frame" x="409" y="22" width="49" height="16"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                    <buttonCell key="cell" type="bevel" title="Details" bezelStyle="regularSquare" alignment="center" imageScaling="proportionallyDown" inset="2" id="brX-eD-I9J">
+                                                                    <buttonCell key="cell" type="bevel" title="Start" bezelStyle="regularSquare" alignment="center" imageScaling="proportionallyDown" inset="2" id="brX-eD-I9J">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
                                                                     </buttonCell>
                                                                     <connections>
-                                                                        <action selector="detailsButtonPressed:" target="mcx-31-jh5" id="BAM-Mb-C1G"/>
+                                                                        <action selector="startButtonPressed:" target="mcx-31-jh5" id="BAM-Mb-C1G"/>
                                                                     </connections>
                                                                 </button>
+                                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xUI-ch-usT">
+                                                                    <rect key="frame" x="333" y="12" width="75" height="32"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <buttonCell key="cell" type="push" title="reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UWc-0Q-ZAk">
+                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <action selector="resetButtonTapped:" target="mcx-31-jh5" id="6bi-Ff-w9k"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="40s-XA-kFQ">
+                                                                    <rect key="frame" x="267" y="12" width="75" height="32"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <buttonCell key="cell" type="push" title="pause" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rjT-yF-dfj">
+                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <action selector="pauseButtonTapped:" target="mcx-31-jh5" id="Oxa-iP-khF"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Zw-hg-5OJ">
+                                                                    <rect key="frame" x="359" y="41" width="61" height="16"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="00:00:00" id="KNv-ch-sOZ">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
                                                             </subviews>
                                                             <connections>
                                                                 <outlet property="decriptionLabel" destination="Ri6-es-NbQ" id="29h-Ds-YXM"/>
                                                                 <outlet property="taskTitleLabel" destination="Jz8-RW-Bjl" id="fXx-rr-9Ju"/>
+                                                                <outlet property="timerLabel" destination="4Zw-hg-5OJ" id="B9T-Pb-X8J"/>
                                                             </connections>
                                                         </tableCellView>
                                                     </prototypeCellViews>
@@ -787,7 +819,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="8Rm-ZU-zar">
-                                    <rect key="frame" x="1" y="205" width="438" height="15"/>
+                                    <rect key="frame" x="1" y="405" width="478" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="vWt-iy-SnU">
@@ -977,7 +1009,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="vTs-Rn-e1g">
-                                                            <rect key="frame" x="8" y="0.0" width="431" height="24"/>
+                                                            <rect key="frame" x="18" y="0.0" width="431" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cLJ-BQ-ydN">
@@ -1001,7 +1033,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="NMA-el-ksE">
-                                    <rect key="frame" x="1" y="118" width="238" height="16"/>
+                                    <rect key="frame" x="1" y="396" width="448" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="lPJ-NH-iYe">

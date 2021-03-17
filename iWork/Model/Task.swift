@@ -11,7 +11,7 @@ class Task {
     var id: String
     var name: String
     var description: String
-    var elapsedTime: Double
+    var elapsedTime: Int
     var createdAt: Double
     var externalDocLinks: [(url:String, description:String)]?
     var status: TaskStatus

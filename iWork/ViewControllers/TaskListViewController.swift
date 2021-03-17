@@ -62,6 +62,8 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
         guard let taskCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "customTaskCell"), owner: self) as? TaskListCellView else { return nil }
         taskCell.taskTitleLabel.stringValue = taskList[row].name
         taskCell.decriptionLabel.stringValue = taskList[row].description
+        taskCell.seconds = taskList[row].elapsedTime
+        taskCell.taskId = taskList[row].id
         return taskCell
     }
 }

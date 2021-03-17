@@ -24,13 +24,25 @@ class TaskManager {
         return task
     }
     
-    
-    static func addTimeToTask(id:String, seconds:Double) {
+    static func updateTaskName(name: String, description: String?, for id: String) {
         guard let task = TaskManager.tasks[id] else {
             print("Task not found")
             return
         }
-        task.elapsedTime += seconds
+        if name.count > 2 {
+            task.name = name
+            task.description = description ?? ""
+            TaskManager.tasks[id] = task
+        }
+    }
+    
+    static func setElapsedTimeForTask(id:String, to seconds:Int) {
+        guard let task = TaskManager.tasks[id] else {
+            print("Task not found")
+            return
+        }
+        print("Updating task \(id)")
+        task.elapsedTime = seconds
         TaskManager.tasks[id] = task
     }
     
