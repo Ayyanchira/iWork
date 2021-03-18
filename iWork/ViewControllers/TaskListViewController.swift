@@ -99,6 +99,34 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
         return [markAsCompleteAction, deleteAction]
     }
     
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        print("cell tapped")
+        print("selected row is \(taskListTableView.selectedRow)")
+        performSegue(withIdentifier: "showDetails", sender: taskListTableView)
+        
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: NSStoryboardSegue.Identifier, sender: Any?) -> Bool {
+        if taskListTableView.selectedRow < 0 || taskListTableView.selectedRow > taskList.count - 1 {
+            return false
+        } else {
+            return true
+        }
+        
+    }
+    
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        if taskListTableView.selectedRow < 0 || taskListTableView.selectedRow > taskList.count - 1 {
+            return
+        }
+        let selectedTask = taskList[taskListTableView.selectedRow]
+        let vc = segue.destinationController as? EditTaskViewController
+        vc?.taskId = selectedTask.id
+        print("Hello")
+//        vc?.taskTitleTextField = selectedTask.name
+//        vc?.taskDescriptionTextField.string = selectedTask.taskDescription
+    }
+    
 }
 
 //MARK:- Extensions
