@@ -63,16 +63,15 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
     
     //MARK: Table view delegate methods
     func numberOfRows(in tableView: NSTableView) -> Int {
-        print("refreshing the table. Getting count \(taskList.count)")
+//        print("refreshing the table. Getting count \(taskList.count)")
         return taskList.count
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard let taskCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "customTaskCell"), owner: self) as? TaskListCellView else { return nil }
-        print("populating \(taskList[row].name)")
         taskCell.taskTitleLabel.stringValue = taskList[row].name
-        taskCell.decriptionLabel.stringValue = taskList[row].description
-        taskCell.seconds = taskList[row].elapsedTime
+        taskCell.decriptionLabel.stringValue = taskList[row].taskDescription
+        taskCell.timerLabel.stringValue = TimeUtil.timeString(time: TimeInterval(taskList[row].elapsedTime))
         taskCell.taskId = taskList[row].id
         return taskCell
     }
@@ -90,9 +89,11 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
         
         let deleteAction = NSTableViewRowAction(style: .destructive, title: "Delete") { (rowAction, id) in
             print("Delete tapped")
-            TaskManager.deleteTask(id: self.taskList[row].id)
-            self.refreshTaskList()
-//            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "taskDelete\(self.taskList[row].id)"), object: nil)
+//            tableView.removeRows(at: [row], withAnimation: .effectFade)
+//            TaskManager.deleteTask(id: self.taskList[row].id)
+//            self.refreshTaskList()print
+            print("posting notification to delete task with rawValue taskDelete\(self.taskList[row].id)")
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "TASK_DELETE"), object: self.taskList[row].id)
         }
         
         return [markAsCompleteAction, deleteAction]

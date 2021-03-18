@@ -18,14 +18,70 @@ class TaskListCellView: NSTableCellView {
     @IBOutlet weak var seperatorView: NSView!
     
     var taskId:String?
-    var seconds = 0 //This variable will hold a starting value of seconds. It could be any amount above 0.
+    var seconds:Int {
+        return TaskManager.getTask(id: taskId!)?.elapsedTime ?? 0
+    } //This variable will hold a starting value of seconds. It could be any amount above 0.
     var timer = Timer()
     var isTimerRunning = false //This will be used to make sure only one timer is created at a time.
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
+        if let task = TaskManager.getTask(id: taskId!) {
+            
+            print("--------\ndraw for cell for task -\(task.name) called")
+        } else {
+            print("--------\nDraw for unknown called")
+        }
+        
+        updateTaskStatus()
         updateUIElements()
         NotificationCenter.default.addObserver(self, selector: #selector(updateUIElements), name: NSNotification.Name(rawValue: "taskUpdate\(taskId!)"), object: nil)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.init("TASK_DELETE"), object: nil, queue: nil) { (notification) in
+            if let taskIdToDelete = notification.object {
+                self.onDeleteNotified(id: taskIdToDelete as! String)
+            }
+        }
+    }
+    
+    @IBAction func startStopButtonPressed(_ sender: Any) {
+        toggleTimer()
+        updateTaskStatus()
+        updateUIElements()
+    }
+    
+    func updateTaskStatus() {
+        print("updating task -\(taskId!).")
+        guard let task = TaskManager.getTask(id: taskId!) else {
+            return
+        }
+        print("Before - status - \(task.status)")
+        if task.status == .COMPLETE {
+            timer.invalidate()
+            updateUIElements()
+            TaskManager.updateTask(task: task)
+            return
+        }
+        if(!isTimerRunning) {
+            print("is timer running? - \(isTimerRunning)")
+            if (task.elapsedTime == 0) {
+                print("is seconds zero? - \(seconds == 0)")
+                //Not started yet
+                task.status = .NEW
+                print("thus task \(task.name) - is New")
+            } else {
+                print("seconds is - \(seconds)")
+                //Paused
+//                print("status is been set to paused")
+                task.status = .PAUSED
+                print("thus task \(task.name) - is Paused")
+            }
+        } else {
+            print("Timer is running")
+            //Running
+            task.status = .IN_PROGRESS
+            print("thus task \(task.name) - is is progress")
+        }
+        TaskManager.updateTask(task: task)
     }
     
     @objc func updateUIElements() {
@@ -49,51 +105,15 @@ class TaskListCellView: NSTableCellView {
         }
     }
     
-    @IBAction func startStopButtonPressed(_ sender: Any) {
-        toggleTimer()
-        updateTaskStatus()
-        updateUIElements()
-    }
-    
-    func updateTaskStatus() {
-        guard let task = TaskManager.getTask(id: taskId!) else {
-            return
-        }
-        
-        if task.status == .COMPLETE {
+    @objc func onDeleteNotified(id: String) {
+        if TaskManager.getTask(id: id) != nil {
+            isTimerRunning = false
             timer.invalidate()
-            updateUIElements()
-            TaskManager.updateTask(task: task)
-            return
+            TaskManager.deleteTask(id: id)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+            NotificationCenter.default.removeObserver(self)
         }
-        
-        if(!isTimerRunning) {
-            if (seconds == 0) {
-                //Not started yet
-                task.status = .NEW
-            } else {
-                //Paused
-                task.status = .PAUSED
-            }
-        } else {
-            //Running
-            task.status = .IN_PROGRESS
-        }
-        TaskManager.updateTask(task: task)
     }
-    
-    deinit {
-        print("Invalidating the timer")
-        timer.invalidate()
-    }
-    
-//    @objc func deleteTask() {
-//        isTimerRunning = false
-//        timer.invalidate()
-//        TaskManager.deleteTask(id: taskId!)
-//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
-//        NotificationCenter.default.removeObserver(self)
-//    }
     
     //MARK:- Task Time Management
     
@@ -103,6 +123,9 @@ class TaskListCellView: NSTableCellView {
     
     fileprivate func toggleTimer() {
         if isTimerRunning == false {
+            if let task = TaskManager.getTask(id: taskId!) {
+                print("timer running for task - \(task.name)")
+            }
             isTimerRunning = true
             runTimer()
         } else {
@@ -113,23 +136,22 @@ class TaskListCellView: NSTableCellView {
     
     @objc func updateTimer() {
         
-        seconds += 1     //This will increment the seconds.
-        timerLabel.stringValue = timeString(time: TimeInterval(seconds))
-        
-        //Commit to local
-        if taskId != nil {
-            if (TaskManager.getTask(id: taskId!) == nil) {
-                print("Task already deleted")
+        if (TaskManager.getTask(id: taskId!)?.status == TaskStatus.IN_PROGRESS) {
+              //This will increment the seconds.
+            
+            
+            //Commit to local
+            if taskId != nil {
+                if (TaskManager.getTask(id: taskId!) == nil) {
+                    print("Task already deleted")
+                }
+                TaskManager.setElapsedTimeForTask(id: taskId!, to: seconds + 1)
             }
-            TaskManager.setElapsedTimeForTask(id: taskId!, to: seconds)
+            timerLabel.stringValue = TimeUtil.timeString(time: TimeInterval(seconds))
         }
+        
 //        updateTaskStatus()
     }
     
-    func timeString(time:TimeInterval) -> String {
-        let hours = Int(time) / 3600
-        let minutes = Int(time) / 60 % 60
-        let seconds = Int(time) % 60
-        return String(format: "%02i:%02i:%02i", hours, minutes, seconds)
-    }
+    
 }

@@ -20,7 +20,7 @@ class TaskManager {
     static func addTask(name:String, description: String?) -> Task {
         let task = Task(name: name, description: description)
         TaskManager.tasks[task.id] = task
-        print("Task \(task.id) added to array")
+//        print("Task \(task.id) added to array")
         return task
     }
     
@@ -31,7 +31,7 @@ class TaskManager {
         }
         if name.count > 2 {
             task.name = name
-            task.description = description ?? ""
+            task.taskDescription = description ?? ""
             TaskManager.tasks[id] = task
         }
     }
