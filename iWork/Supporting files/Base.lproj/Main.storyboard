@@ -738,7 +738,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="customTaskCell" id="mcx-31-jh5" customClass="TaskListCellView" customModule="iWork" customModuleProvider="target">
-                                                            <rect key="frame" x="18" y="0.0" width="461" height="60"/>
+                                                            <rect key="frame" x="8" y="0.0" width="461" height="60"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ri6-es-NbQ">
@@ -767,7 +767,7 @@
                                                                         <font key="font" metaFont="system"/>
                                                                     </buttonCell>
                                                                     <connections>
-                                                                        <action selector="startButtonPressed:" target="mcx-31-jh5" id="BAM-Mb-C1G"/>
+                                                                        <action selector="startStopButtonPressed:" target="mcx-31-jh5" id="BAM-Mb-C1G"/>
                                                                     </connections>
                                                                 </button>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Zw-hg-5OJ">
@@ -803,7 +803,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="8Rm-ZU-zar">
-                                    <rect key="frame" x="1" y="405" width="478" height="16"/>
+                                    <rect key="frame" x="1" y="406" width="478" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="vWt-iy-SnU">
@@ -955,7 +955,7 @@
                 </viewController>
                 <customObject id="Iti-yR-o2O" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="684" y="1058"/>
+            <point key="canvasLocation" x="684" y="1069"/>
         </scene>
         <!--View/Edit Task-->
         <scene sceneID="1Qa-25-r8h">
@@ -993,7 +993,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="vTs-Rn-e1g">
-                                                            <rect key="frame" x="18" y="0.0" width="431" height="24"/>
+                                                            <rect key="frame" x="8" y="0.0" width="431" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cLJ-BQ-ydN">
@@ -1017,7 +1017,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="NMA-el-ksE">
-                                    <rect key="frame" x="1" y="396" width="448" height="16"/>
+                                    <rect key="frame" x="1" y="397" width="448" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="lPJ-NH-iYe">

@@ -12,7 +12,7 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
 //    var taskList = ["Task 1", "Task 2", "Task 3"]
 //    var taskDescriptionList = ["Task 1 is great", "Task 2 is not so great", "Task 3 is the best of all"]
     var taskList:[Task] = [Task]()
-    var taskManager = TaskManager()
+//    var taskManager = TaskManager()
     
     @IBOutlet weak var taskListTableView: NSTableView!
     
@@ -23,7 +23,9 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
         taskListTableView.dataSource = self
         taskList = TaskManager.getAllTasks() ?? [Task]()
         addNewTasks()
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshTaskList), name: NSNotification.Name(rawValue: "load"), object: nil)
+        
+        //Adding observer for add new task
+        NotificationCenter.default.addObserver(self, selector: #selector(onNotifyLoad), name: NSNotification.Name(rawValue: "load"), object: nil)
     }
     
     func addNewTasks() {
@@ -34,10 +36,16 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
         taskList.append(TaskManager.addTask(name: "Create JIRA APIs", description: "Use postman to create hit JIRA endpoints to see if it gives back required data"))
     }
 
-    @objc func refreshTaskList(notification: NSNotification) {
+    fileprivate func refreshTaskList() {
         DispatchQueue.main.async {
             self.taskList = TaskManager.getAllTasks() ?? [Task]()
             self.taskListTableView.reloadData()
+        }
+    }
+    
+    @objc func onNotifyLoad(notification: NSNotification) {
+        if notification.name.rawValue == "load" {
+            refreshTaskList()
         }
     }
     
@@ -55,17 +63,42 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
     
     //MARK: Table view delegate methods
     func numberOfRows(in tableView: NSTableView) -> Int {
+//        print("refreshing the table. Getting count \(taskList.count)")
         return taskList.count
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard let taskCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "customTaskCell"), owner: self) as? TaskListCellView else { return nil }
         taskCell.taskTitleLabel.stringValue = taskList[row].name
-        taskCell.decriptionLabel.stringValue = taskList[row].description
-        taskCell.seconds = taskList[row].elapsedTime
+        taskCell.decriptionLabel.stringValue = taskList[row].taskDescription
+        taskCell.timerLabel.stringValue = TimeUtil.timeString(time: TimeInterval(taskList[row].elapsedTime))
         taskCell.taskId = taskList[row].id
         return taskCell
     }
+    
+    func tableView(_ tableView: NSTableView, rowActionsForRow row: Int, edge: NSTableView.RowActionEdge) -> [NSTableViewRowAction] {
+        let markAsCompleteAction = NSTableViewRowAction(style: .regular, title: "Complete") { (rowAction, id) in
+            
+            print("mark as completed tapped")
+            print("rowAction is \(rowAction) id is\(id)")
+            if let task = TaskManager.getTask(id: self.taskList[row].id){
+                TaskManager.markAsComplete(id: task.id)
+            }
+        }
+        markAsCompleteAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        
+        let deleteAction = NSTableViewRowAction(style: .destructive, title: "Delete") { (rowAction, id) in
+            print("Delete tapped")
+//            tableView.removeRows(at: [row], withAnimation: .effectFade)
+//            TaskManager.deleteTask(id: self.taskList[row].id)
+//            self.refreshTaskList()print
+            print("posting notification to delete task with rawValue taskDelete\(self.taskList[row].id)")
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "TASK_DELETE"), object: self.taskList[row].id)
+        }
+        
+        return [markAsCompleteAction, deleteAction]
+    }
+    
 }
 
 //MARK:- Extensions

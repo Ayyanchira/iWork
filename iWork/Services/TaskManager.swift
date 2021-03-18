@@ -20,7 +20,7 @@ class TaskManager {
     static func addTask(name:String, description: String?) -> Task {
         let task = Task(name: name, description: description)
         TaskManager.tasks[task.id] = task
-        print("Task \(task.id) added to array")
+//        print("Task \(task.id) added to array")
         return task
     }
     
@@ -31,7 +31,7 @@ class TaskManager {
         }
         if name.count > 2 {
             task.name = name
-            task.description = description ?? ""
+            task.taskDescription = description ?? ""
             TaskManager.tasks[id] = task
         }
     }
@@ -41,9 +41,36 @@ class TaskManager {
             print("Task not found")
             return
         }
-        print("Updating task \(id)")
+        print("Updating task \(id) - \(task.name)")
         task.elapsedTime = seconds
         TaskManager.tasks[id] = task
+    }
+    
+    static func getTask(id:String) -> Task? {
+        guard let task = TaskManager.tasks[id] else {
+            print("Task not found")
+            return nil
+        }
+        return task
+    }
+    
+    static func markAsComplete(id: String) {
+        guard let task = TaskManager.tasks[id] else {
+            print("Task not found")
+            return
+        }
+        task.status = .COMPLETE
+        TaskManager.tasks[id] = task
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "taskUpdate\(id)"), object: nil)
+    }
+    
+    static func updateTask(task: Task) {
+        tasks[task.id] = task
+    }
+    
+    static func deleteTask(id: String) {
+        print("Deleting task id \(id)")
+        tasks.removeValue(forKey: id)
     }
     
 }

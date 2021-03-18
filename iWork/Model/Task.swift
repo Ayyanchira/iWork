@@ -10,7 +10,7 @@ import Foundation
 class Task {
     var id: String
     var name: String
-    var description: String
+    var taskDescription: String
     var elapsedTime: Int
     var createdAt: Double
     var externalDocLinks: [(url:String, description:String)]?
@@ -19,7 +19,7 @@ class Task {
     init(name: String) {
         id = UUID().uuidString
         self.name = name
-        description = ""
+        taskDescription = ""
         elapsedTime = 0
         externalDocLinks = nil
         status = TaskStatus.NEW
@@ -29,11 +29,19 @@ class Task {
     init(name: String, description: String?) {
         id = UUID().uuidString
         self.name = name
-        self.description = description ?? ""
+        self.taskDescription = description ?? ""
         elapsedTime = 0
         externalDocLinks = nil
         status = TaskStatus.NEW
         createdAt = Date().timeIntervalSince1970
+    }
+    
+    
+}
+
+extension Task: CustomStringConvertible {
+    var description:String {
+        return "id: \(id), name\(name), elapsedTime: \(elapsedTime)"
     }
 }
 
