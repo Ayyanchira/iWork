@@ -107,12 +107,17 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
     }
     
     override func shouldPerformSegue(withIdentifier identifier: NSStoryboardSegue.Identifier, sender: Any?) -> Bool {
-        if taskListTableView.selectedRow < 0 || taskListTableView.selectedRow > taskList.count - 1 {
-            return false
-        } else {
+        if identifier == "NewTask" {
             return true
         }
-        
+        if identifier == "showDetails" {
+            if taskListTableView.selectedRow < 0 || taskListTableView.selectedRow > taskList.count - 1 {
+                return false
+            } else {
+                return true
+            }
+        }
+        return false
     }
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
@@ -122,9 +127,6 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
         let selectedTask = taskList[taskListTableView.selectedRow]
         let vc = segue.destinationController as? EditTaskViewController
         vc?.taskId = selectedTask.id
-        print("Hello")
-//        vc?.taskTitleTextField = selectedTask.name
-//        vc?.taskDescriptionTextField.string = selectedTask.taskDescription
     }
     
 }
