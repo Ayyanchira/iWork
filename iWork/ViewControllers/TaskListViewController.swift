@@ -30,12 +30,16 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
         NotificationCenter.default.addObserver(self, selector: #selector(onNotifyLoad), name: NSNotification.Name(rawValue: "load"), object: nil)
     }
     
+    override func viewWillAppear() {
+        TaskManager.loadFromDisk()
+    }
+    
     func addNewTasks() {
+        taskList.append(TaskManager.addTask(name: "JWT Implementation", description: "Mobile SDK implementation of JWT"))
         taskList.append(TaskManager.addTask(name: "Release Android 3.3.0", description: "Release Android SDK on maven central"))
-        taskList.append(TaskManager.addTask(name: "Have a architecture ready", description: "InApp Animation flow diagram"))
-        taskList.append(TaskManager.addTask(name: "Migrate to Kube", description: "Write a slab doc for Kube migration"))
-        taskList.append(TaskManager.addTask(name: "Make Coffee", description: nil))
-        taskList.append(TaskManager.addTask(name: "Create JIRA APIs", description: "Use postman to create hit JIRA endpoints to see if it gives back required data"))
+        taskList.append(TaskManager.addTask(name: "Get yourself a coffee", description: "And a snack may be 🤷‍♂️ 😉"))
+        taskList.append(TaskManager.addTask(name: "Create a slide for Hack Week Demo", description: "1. Add some images"))
+        taskList.append(TaskManager.addTask(name: "On Call Handover", description: "Go through the tickets and hand over the tickets to next engineer"))
     }
 
     fileprivate func refreshTaskList() {
@@ -90,10 +94,6 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
         markAsCompleteAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
         
         let deleteAction = NSTableViewRowAction(style: .destructive, title: "Delete") { (rowAction, id) in
-            print("Delete tapped")
-//            tableView.removeRows(at: [row], withAnimation: .effectFade)
-//            TaskManager.deleteTask(id: self.taskList[row].id)
-//            self.refreshTaskList()print
             print("posting notification to delete task with rawValue taskDelete\(self.taskList[row].id)")
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "TASK_DELETE"), object: self.taskList[row].id)
         }
@@ -102,10 +102,7 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
-        print("cell tapped")
-        print("selected row is \(taskListTableView.selectedRow)")
         performSegue(withIdentifier: "showDetails", sender: taskListTableView)
-        
     }
     
     override func shouldPerformSegue(withIdentifier identifier: NSStoryboardSegue.Identifier, sender: Any?) -> Bool {
@@ -133,6 +130,7 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
     
     override func viewDidDisappear() {
         //save to disk
+        TaskManager.writeToDisk()
     }
     
 }

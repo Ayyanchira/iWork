@@ -73,12 +73,79 @@ class TaskManager {
         tasks.removeValue(forKey: id)
     }
     
-    func writeToDisk() {
+    static func loadFromDisk() {
         
+//        https://www.appcoda.com/json-codable-swift/
+        let documentsDirectoryPathString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        let documentsDirectoryPath = NSURL(string: documentsDirectoryPathString)!
+        
+        let jsonFilePath = documentsDirectoryPath.appendingPathComponent("Tasks.json")
+        let fileManager = FileManager.default
+        var isDirectory: ObjCBool = false
+        
+        // creating a .json file in the Documents folder
+        if !fileManager.fileExists(atPath: (jsonFilePath?.absoluteString)!, isDirectory: &isDirectory) {
+            print("No file found")
+            return
+        } else {
+            print("File found")
+        }
+        
+        do {
+            let file = try FileHandle(forReadingFrom: jsonFilePath!)
+            if let jsonData = NSData(contentsOf: jsonFilePath!.absoluteURL) {
+                print("Got something")
+            }
+            
+            
+            if let data = try? file.readToEnd() {
+                let decodedResponse = try? JSONDecoder().decode([Task].self, from: data.base64EncodedData())
+                print("Hello")
+            }
+            print("JSON data was written to teh file successfully!")
+        } catch let error as NSError {
+            print("Couldn't write to file: \(error.localizedDescription)")
+        }
     }
     
-    func loadFromDisk() {
-            
+    static func writeToDisk() {
+        let documentsDirectoryPathString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        let documentsDirectoryPath = NSURL(string: documentsDirectoryPathString)!
+
+        let jsonFilePath = documentsDirectoryPath.appendingPathComponent("Tasks.json")
+        let fileManager = FileManager.default
+        var isDirectory: ObjCBool = false
+
+        // creating a .json file in the Documents folder
+        if !fileManager.fileExists(atPath: (jsonFilePath?.absoluteString)!, isDirectory: &isDirectory) {
+            let created = fileManager.createFile(atPath: jsonFilePath!.absoluteString, contents: nil, attributes: nil)
+            if created {
+                print("File created ")
+            } else {
+                print("Couldn't create file for some reason")
+            }
+        } else {
+            print("File already exists")
+        }
+
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+
+        if let data = try? encoder.encode(TaskManager.tasks) {
+            print(String(data: data, encoding: .utf8)!)
+            // Write that JSON to the file created earlier
+            //    let jsonFilePath = documentsDirectoryPath.appendingPathComponent("test.json")
+            do {
+                let file = try FileHandle(forWritingTo: jsonFilePath!)
+                file.truncateFile(atOffset: 0)
+                file.write(data as Data)
+                file.closeFile()
+                print("JSON data was written to teh file successfully!")
+            } catch let error as NSError {
+                print("Couldn't write to file: \(error.localizedDescription)")
+            }
+        }
+        
     }
     
 }

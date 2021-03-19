@@ -52,3 +52,7 @@ enum TaskStatus: String,Codable {
     case PAUSED
     case COMPLETE
 }
+
+class Tasks:Codable {
+    var tasks: [Task]?
+}

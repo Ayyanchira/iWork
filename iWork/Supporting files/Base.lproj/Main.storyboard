@@ -1036,8 +1036,8 @@
                             <constraint firstAttribute="trailing" secondItem="z0a-yF-PnW" secondAttribute="trailing" constant="20" symbolic="YES" id="46B-vx-tFG"/>
                             <constraint firstItem="z0a-yF-PnW" firstAttribute="leading" secondItem="Kdn-Yy-KmM" secondAttribute="leading" constant="20" symbolic="YES" id="Ck8-Z3-xR7"/>
                             <constraint firstItem="QZL-jG-Sde" firstAttribute="top" secondItem="z0a-yF-PnW" secondAttribute="bottom" constant="20" id="JWJ-Fp-iJl"/>
+                            <constraint firstAttribute="bottom" secondItem="mLx-gZ-tED" secondAttribute="bottom" constant="7" id="LGg-nS-viE"/>
                             <constraint firstAttribute="trailing" secondItem="BEc-r3-mJ2" secondAttribute="trailing" constant="20" symbolic="YES" id="Msf-Tt-qOR"/>
-                            <constraint firstItem="mLx-gZ-tED" firstAttribute="top" secondItem="NVQ-jr-3ib" secondAttribute="bottom" constant="20" symbolic="YES" id="QdO-Ht-29h"/>
                             <constraint firstItem="hWp-Et-PUB" firstAttribute="baseline" secondItem="QZL-jG-Sde" secondAttribute="baseline" id="UuL-BL-kAJ"/>
                             <constraint firstItem="z0a-yF-PnW" firstAttribute="top" secondItem="BEc-r3-mJ2" secondAttribute="bottom" constant="16" id="XZI-jA-Axp"/>
                             <constraint firstItem="z0a-yF-PnW" firstAttribute="leading" secondItem="mLx-gZ-tED" secondAttribute="leading" id="hEc-OS-UNE"/>
