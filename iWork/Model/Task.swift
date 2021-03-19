@@ -7,13 +7,13 @@
 
 import Foundation
 
-class Task {
+class Task: Codable {
     var id: String
     var name: String
     var taskDescription: String
     var elapsedTime: Int
     var createdAt: Double
-    var externalDocLinks: [(url:String, description:String)]?
+//    var externalDocLinks: [(url:String, description:String)]?
     var status: TaskStatus
     
     init(name: String) {
@@ -21,7 +21,7 @@ class Task {
         self.name = name
         taskDescription = ""
         elapsedTime = 0
-        externalDocLinks = nil
+//        externalDocLinks = nil
         status = TaskStatus.NEW
         createdAt = Date().timeIntervalSince1970
     }
@@ -31,7 +31,7 @@ class Task {
         self.name = name
         self.taskDescription = description ?? ""
         elapsedTime = 0
-        externalDocLinks = nil
+//        externalDocLinks = nil
         status = TaskStatus.NEW
         createdAt = Date().timeIntervalSince1970
     }
@@ -46,7 +46,7 @@ extension Task: CustomStringConvertible {
 }
 
 
-enum TaskStatus {
+enum TaskStatus: String,Codable {
     case NEW
     case IN_PROGRESS
     case PAUSED

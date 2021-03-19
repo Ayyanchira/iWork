@@ -39,11 +39,12 @@ class EditTaskViewController: NSViewController {
     
     //MARK: IBActions
     @IBAction func deleteButtonPressed(_ sender: NSButton) {
-        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "TASK_DELETE"), object: task?.id)
+        dismiss(self)
     }
     
     @IBAction func markAsCompleteButtonPressed(_ sender: NSButton) {
-        
+        TaskManager.markAsComplete(id: task!.id)
     }
     
     @IBAction func saveButtonPressed(_ sender: NSButton) {

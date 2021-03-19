@@ -73,4 +73,12 @@ class TaskManager {
         tasks.removeValue(forKey: id)
     }
     
+    func writeToDisk() {
+        
+    }
+    
+    func loadFromDisk() {
+            
+    }
+    
 }

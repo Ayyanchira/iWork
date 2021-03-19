@@ -19,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         button.image = NSImage(named:NSImage.Name("StatusBarButtonImage"))
         button.action = #selector(togglePopover(_:))
       }
-//        popover.behavior = .transient
+        popover.behavior = .transient
         popover.contentViewController = TaskListViewController.initiateViewController()
     }
     

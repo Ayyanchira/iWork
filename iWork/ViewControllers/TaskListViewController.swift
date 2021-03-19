@@ -19,6 +19,8 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
+        
+        //Load from disk
         taskListTableView.delegate = self
         taskListTableView.dataSource = self
         taskList = TaskManager.getAllTasks() ?? [Task]()
@@ -127,6 +129,10 @@ class TaskListViewController: NSViewController, NSTableViewDelegate, NSTableView
         let selectedTask = taskList[taskListTableView.selectedRow]
         let vc = segue.destinationController as? EditTaskViewController
         vc?.taskId = selectedTask.id
+    }
+    
+    override func viewDidDisappear() {
+        //save to disk
     }
     
 }
